@@ -3,6 +3,7 @@ import Elysia, { t } from 'elysia';
 import { db } from '../../db/connection';
 import { authLinks } from '../../db/schema';
 import { env } from '../../env';
+import { getInfo, mail } from '../../lib/mail';
 
 export const sendAuthLink = new Elysia().post(
   '/authenticate',
@@ -30,8 +31,17 @@ export const sendAuthLink = new Elysia().post(
     authLink.searchParams.set('code', authLinkCode);
     authLink.searchParams.set('redirect', env.AUTH_REDIRECT_URL);
 
-    //TODO: send e-mail
-    console.log(authLink.toString());
+    const info = await mail.sendMail({
+      from: {
+        name: 'Pizza Shop',
+        address: 'hi@pizzashop.com',
+      },
+      to: email,
+      subject: 'Authenticate to Pizza Shop',
+      text: `Use the following link to authenticate on Pizza Shop: ${authLink.toString()}`,
+    });
+
+    console.log(getInfo(info));
   },
 
   {
