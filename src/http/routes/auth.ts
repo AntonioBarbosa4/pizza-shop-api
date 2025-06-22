@@ -32,5 +32,22 @@ export const auth = new Elysia()
           auth.remove();
         }
       },
+
+      getCurrentUser: async () => {
+        if (!auth) {
+          throw new Error('jwt is required');
+        }
+
+        const payload = await jwt.verify(auth.value);
+
+        if (!payload) {
+          throw new Error('Unauthorized');
+        }
+
+        return {
+          userId: payload.sub,
+          restaurantId: payload.restaurantId,
+        };
+      },
     };
   });
