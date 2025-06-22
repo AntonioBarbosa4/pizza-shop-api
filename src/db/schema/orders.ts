@@ -1,0 +1,29 @@
+import { createId } from '@paralleldrive/cuid2';
+import { integer, pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { restaurants } from './restaurants';
+import { users } from './users';
+
+export const ordersStatusEnum = pgEnum('order_status', [
+  'pending',
+  'processing',
+  'delivering',
+  'delivered',
+  'canceled',
+]);
+
+export const orders = pgTable('orders', {
+  id: text('id')
+    .$defaultFn(() => createId())
+    .primaryKey(),
+  restaurantId: text('restaurant_id')
+    .notNull()
+    .references(() => restaurants.id, {
+      onDelete: 'cascade',
+    }),
+  customerId: text('customer_id').references(() => users.id, {
+    onDelete: 'set null',
+  }),
+  status: ordersStatusEnum('status').default('pending').notNull(),
+  totalInCents: integer('total_in_cents').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
