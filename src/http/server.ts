@@ -14,7 +14,19 @@ const app = new Elysia()
   .use(authenticateFromLink)
   .use(signOut)
   .use(getProfile)
-  .use(getManagedRestaurant);
+  .use(getManagedRestaurant)
+  .onError(({ code, error, set }) => {
+    switch (code) {
+      case 'VALIDATION': {
+        set.status = error.status;
+        return error.toResponse();
+      }
+      default: {
+        console.error(error);
+        return new Response(null, { status: 500 });
+      }
+    }
+  });
 
 app.get('/', () => 'Hello World!');
 
