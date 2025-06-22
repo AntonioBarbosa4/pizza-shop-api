@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1748187591107,
+      "tag": "0000_lumpy_thena",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1748187802316,
+      "tag": "0001_rich_spitfire",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1748188041556,
+      "tag": "0002_flippant_gravity",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1748188122591,
+      "tag": "0003_good_pepper_potts",
+      "breakpoints": true
+    }
+  ]
+}
