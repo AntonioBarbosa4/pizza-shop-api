@@ -5,9 +5,9 @@ import { orderItems, orders, products } from '../../db/schema';
 import { UnauthorizedError } from '../errors/unauthorized-error';
 import { auth } from './auth';
 
-export const getPopularProducts = new Elysia()
-  .use(auth)
-  .get('metrics/popular-products', async ({ getCurrentUser }) => {
+export const getPopularProducts = new Elysia().use(auth).get(
+  'metrics/popular-products',
+  async ({ getCurrentUser }) => {
     const { restaurantId } = await getCurrentUser();
 
     if (!restaurantId) {
@@ -30,4 +30,11 @@ export const getPopularProducts = new Elysia()
       .limit(5);
 
     return popularProducts;
-  });
+  },
+  {
+    detail: {
+      tags: ['Metrics'],
+      summary: 'Get popular products',
+    },
+  },
+);

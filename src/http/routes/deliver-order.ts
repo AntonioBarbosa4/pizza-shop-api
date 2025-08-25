@@ -49,5 +49,9 @@ export const deliverOrder = new Elysia().use(auth).patch(
     params: t.Object({
       orderId: t.String(),
     }),
+    detail: {
+      tags: ['Orders'],
+      summary: 'Deliver Order',
+    },
   },
 );

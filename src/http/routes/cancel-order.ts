@@ -46,5 +46,9 @@ export const cancelOrder = new Elysia().use(auth).patch(
     params: t.Object({
       orderId: t.String(),
     }),
+    detail: {
+      tags: ['Orders'],
+      summary: 'Cancel Order',
+    },
   },
 );

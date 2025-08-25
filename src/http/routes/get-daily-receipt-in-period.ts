@@ -76,5 +76,9 @@ export const getDayReceiptInPeriod = new Elysia().use(auth).get(
       from: t.Optional(t.String()),
       to: t.Optional(t.String()),
     }),
+    detail: {
+      tags: ['Metrics'],
+      summary: 'Get daily receipt in period',
+    },
   },
 );

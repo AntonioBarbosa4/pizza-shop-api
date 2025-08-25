@@ -6,9 +6,9 @@ import { orders } from '../../db/schema';
 import { UnauthorizedError } from '../errors/unauthorized-error';
 import { auth } from './auth';
 
-export const getMonthCanceledOrdersAmount = new Elysia()
-  .use(auth)
-  .get('metrics/month-canceled-orders-amount', async ({ getCurrentUser }) => {
+export const getMonthCanceledOrdersAmount = new Elysia().use(auth).get(
+  'metrics/month-canceled-orders-amount',
+  async ({ getCurrentUser }) => {
     const { restaurantId } = await getCurrentUser();
 
     if (!restaurantId) {
@@ -56,4 +56,11 @@ export const getMonthCanceledOrdersAmount = new Elysia()
         ? Number((diffFromLastMonth - 100).toFixed(2))
         : 0,
     };
-  });
+  },
+  {
+    detail: {
+      tags: ['Metrics'],
+      summary: 'Get month canceled orders amount',
+    },
+  },
+);

@@ -2,9 +2,9 @@ import Elysia from 'elysia';
 import { db } from '../../db/connection';
 import { auth } from './auth';
 
-export const getManagedRestaurant = new Elysia()
-  .use(auth)
-  .get('/managed-restaurant', async ({ getCurrentUser }) => {
+export const getManagedRestaurant = new Elysia().use(auth).get(
+  '/managed-restaurant',
+  async ({ getCurrentUser }) => {
     const { restaurantId } = await getCurrentUser();
 
     if (!restaurantId) {
@@ -21,4 +21,11 @@ export const getManagedRestaurant = new Elysia()
     }
 
     return restaurant;
-  });
+  },
+  {
+    detail: {
+      tags: ['Restaurant'],
+      summary: 'Managed a restaurant',
+    },
+  },
+);

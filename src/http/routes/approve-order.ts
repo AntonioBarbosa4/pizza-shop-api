@@ -46,5 +46,10 @@ export const approveOrder = new Elysia().use(auth).patch(
     params: t.Object({
       orderId: t.String(),
     }),
+
+    detail: {
+      tags: ['Orders'],
+      summary: 'Approve Order',
+    },
   },
 );

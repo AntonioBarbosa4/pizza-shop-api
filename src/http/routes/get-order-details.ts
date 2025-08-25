@@ -64,5 +64,9 @@ export const getOrderDetails = new Elysia().use(auth).get(
     params: t.Object({
       orderId: t.String(),
     }),
+    detail: {
+      tags: ['Orders'],
+      summary: 'Get Order details',
+    },
   },
 );

@@ -72,5 +72,9 @@ export const getOrders = new Elysia().use(auth).get(
       status: t.Optional(createSelectSchema(orders).properties.status),
       pageIndex: t.Numeric({ minimum: 0 }),
     }),
+    detail: {
+      tags: ['Orders'],
+      summary: 'Get Orders',
+    },
   },
 );

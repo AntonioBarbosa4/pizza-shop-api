@@ -6,9 +6,9 @@ import { orders } from '../../db/schema';
 import { UnauthorizedError } from '../errors/unauthorized-error';
 import { auth } from './auth';
 
-export const getMonthRevenue = new Elysia()
-  .use(auth)
-  .get('metrics/month-revenue', async ({ getCurrentUser }) => {
+export const getMonthRevenue = new Elysia().use(auth).get(
+  'metrics/month-revenue',
+  async ({ getCurrentUser }) => {
     const { restaurantId } = await getCurrentUser();
 
     if (!restaurantId) {
@@ -55,4 +55,11 @@ export const getMonthRevenue = new Elysia()
         ? Number((diffFromLastMonth - 100).toFixed(2))
         : 0,
     };
-  });
+  },
+  {
+    detail: {
+      tags: ['Metrics'],
+      summary: 'Get month revenue',
+    },
+  },
+);
