@@ -1,5 +1,6 @@
 import Elysia from 'elysia';
 
+import swagger from '@elysiajs/swagger';
 import { env } from '../env';
 import { approveOrder } from './routes/approve-order';
 import { authenticateFromLink } from './routes/authenticate-from-link';
@@ -21,6 +22,28 @@ import { sendAuthLink } from './routes/send-auth-link';
 import { signOut } from './routes/sign-out';
 
 const app = new Elysia()
+  .use(
+    swagger({
+      path: '/docs',
+      documentation: {
+        info: {
+          title: 'Pizza shop',
+          description: 'Official API documentation',
+          version: '1.0.0',
+        },
+        components: {
+          securitySchemes: {
+            cookieAuth: {
+              type: 'apiKey',
+              in: 'cookie',
+              name: 'auth',
+            },
+          },
+        },
+        security: [{ cookieAuth: [] }],
+      },
+    }),
+  )
   .use(registerRestaurant)
   .use(sendAuthLink)
   .use(authenticateFromLink)
@@ -54,8 +77,6 @@ const app = new Elysia()
       }
     }
   });
-
-app.get('/', () => 'Hello World!');
 
 app.listen(env.PORT, () =>
   console.log(`Server is running on http://localhost:${env.PORT}`),
