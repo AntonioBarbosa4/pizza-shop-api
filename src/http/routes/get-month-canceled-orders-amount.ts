@@ -6,9 +6,9 @@ import { orders } from '../../db/schema';
 import { UnauthorizedError } from '../errors/unauthorized-error';
 import { auth } from './auth';
 
-export const getMonthOrdersAmount = new Elysia()
+export const getMonthCanceledOrdersAmount = new Elysia()
   .use(auth)
-  .get('metrics/month-orders-amount', async ({ getCurrentUser }) => {
+  .get('metrics/month-canceled-orders-amount', async ({ getCurrentUser }) => {
     const { restaurantId } = await getCurrentUser();
 
     if (!restaurantId) {
@@ -28,6 +28,7 @@ export const getMonthOrdersAmount = new Elysia()
       .where(
         and(
           eq(orders.restaurantId, restaurantId),
+          eq(orders.status, 'canceled'),
           gte(orders.createdAt, startOfLastMonth.toDate()),
         ),
       )
